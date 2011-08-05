@@ -133,8 +133,7 @@ plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab
 	  		Tpos <- Tpos + c(-0.45,0.45)
 	  		Bpos <- Bpos + c(-0.45,0.45)
 	  		## Module
-	  		if(mode=='frames') rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],lwd=2)
-	  		if(mode=='both') rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],border=CommColor[Ccom],lwd=2)
+	  		rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],lwd=2,border=ifelse(mode=='both',CommColor[Ccom],'black'))
    		}
    	}
    	## Squares
