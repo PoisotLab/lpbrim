@@ -71,6 +71,9 @@ plotModules = function(mod)
 
 
 plotMatrixModules = function (mod,mode='blocks') {	
+	
+	if(!(mode%in%c('blocks','frames','both'))) warning('Plot mode should be one of blocks, frames, or both')
+	
 	x <- mod$M
  	S <- mod$S
  	Modules <- numeric(nrow(S))
