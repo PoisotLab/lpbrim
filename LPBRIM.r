@@ -72,8 +72,6 @@ bLP = function (x,as.adjacency=TRUE) {
 	return(Modules[OrderVec])
 }
 
-
-
 Qbip = function(x,s)
 {
 	Q <- 0
@@ -87,6 +85,8 @@ Qbip = function(x,s)
  	for(i in 1:nrow(x)) for(j in 1:ncol(x)) P[i,j] <- (sum(x[i,])*sum(x[,j]))/m
  	B <- A-P	
  	Rm <- s[c(1:p),]
+	## If the network is not modular
+	if(is.null(dim(Rm))) return(0)
  	Tm <- s[c(p+(1:h)),]
  	## Induce Qr from T
  	BT <- B%*%Tm
