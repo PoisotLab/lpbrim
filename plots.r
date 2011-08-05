@@ -1,11 +1,8 @@
 plotModules = function(mod)
 {
 	opar <- par(no.readonly=TRUE)
-	##
-	#TX <- spread(x[x>0],0.5,3)
  	x <- mod$M
 	x[x>0] <- 1
-	##
  	par(mar=c(0,0,0,0),xaxt='n',yaxt='n')
 	##
  	S <- mod$S
@@ -19,10 +16,8 @@ plotModules = function(mod)
  	names(ModNum) <- names(Modules)
  	Tm <- ModNum[rownames(x)]
  	Bm <- ModNum[colnames(x)]
- 	## Initate Plot
  	CommColor <- colorRampPalette(brewer.pal(11,'Spectral'))(ncol(S))
  	plot(0,xlim=c(-1,2),ylim=c(0,1),pch=NA,bty='n')
- 	##
  	SeqT <- rank(Tm,ties.method='random')
  	SeqB <- rank(Bm,ties.method='random')
  	## Within each module …
@@ -119,7 +114,7 @@ plotMatrixModules = function (mod,mode='blocks') {
  	Tm <- Tm[names(SeqT)]
  	Bm <- Bm[names(SeqB)]
  
-plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab='',bty='n')
+	plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab='',bty='n')
 	rect(0.2,0.2,ncol(x)+0.8,nrow(x)+0.8)
    	## FRAMES
    	if(mode%in%c('frames','both'))
@@ -133,8 +128,7 @@ plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab
 	  		Tpos <- Tpos + c(-0.45,0.45)
 	  		Bpos <- Bpos + c(-0.45,0.45)
 	  		## Module
-	  		if(mode=='frames') rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],lwd=2)
-	  		if(mode=='both') rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],border=CommColor[Ccom],lwd=2)
+	  		rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],lwd=2,border=ifelse(mode=='both',CommColor[Ccom],'black'))
    		}
    	}
    	## Squares
