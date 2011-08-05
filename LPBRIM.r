@@ -15,7 +15,6 @@ bLP = function (x,as.adjacency=TRUE) {
    	lT <- c(1:nrow(x))
    	names(lT) <- rownames(x)
    	# LTL labels
-   	## Set to NA for initialization of the graph
    	lB <- rep(0,ncol(x))
    	names(lB) <- colnames(x)
  	## Seeding the initial modularity
@@ -182,10 +181,6 @@ findModules = function(M,iter=50,cpu=1)
  	ModulOutput <- sfLapply(c(1:iter),function(x) bBRIM(M))
   	sfStop()	
  	Qs <- unlist(lapply(ModulOutput,function(x)x$Q))
-	#cs <- unlist(lapply(ModulOutput,function(x)x$c))
-   	#trellis.device('pdf')
-   	#print(xyplot(Qs~cs,type=c('g','p','a'),jitter.x=TRUE))
-   	#dev.off()
    	maxQs <- which.is.max(Qs)
  	return(ModulOutput[[maxQs]])
 }
