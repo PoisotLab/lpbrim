@@ -1,11 +1,6 @@
 library(nnet)
-library(latticeExtra)
 library(snow)
 library(snowfall)
-
-source('common.r')		# Common functions
-source('plots.r')		# Graphic functions
-source('getmodules.r')	# Function to extract modules
 
 bLP = function (x,as.adjacency=TRUE) {
 	cat('Label propagation starting\n')
