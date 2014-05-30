@@ -52,7 +52,7 @@ bLP <- function (x,as.adjacency=TRUE) {
       Modules <- c(lT,lB)
       Comms <- unique(Modules)
       NComm <- length(Comms)
-      Smat <- matrix(0,NCOL=NComm,NROW=sum(dim(x)))
+      Smat <- matrix(0,ncol=NComm,nrow=sum(dim(x)))
       colnames(Smat) <- Comms
       rownames(Smat) <- c(rownames(x),colnames(x))
       for(i in 1:length(Modules)) Smat[names(Modules)[i],as.character(Modules[i])]<-1
@@ -171,6 +171,8 @@ findModules = function(M,iter=50,cpu=1)
       sfLibrary(nnet)
       sfExportAll()
    }
+   if(is.null(rownames(M))) rownames(M) <- paste('r',c(1:NROW(M)),sep='')
+   if(is.null(colnames(M))) colnames(M) <- paste('c',c(1:NCOL(M)),sep='')
    ModulOutput <- sfLapply(c(1:iter),function(x) bBRIM(M))
    sfStop()	
    Qs <- unlist(lapply(ModulOutput,function(x)x$Q))
