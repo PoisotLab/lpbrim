@@ -105,7 +105,7 @@ bBRIM = function(x)
    x[x>0] <- 1
    Comms <- unique(CommDiv)
    NComm <- length(Comms)
-   Smat = matrix(0,NCOL=NComm,NROW=sum(dim(x)))
+   Smat = matrix(0,ncol=NComm,nrow=sum(dim(x)))
    colnames(Smat) <- Comms
    rownames(Smat) <- c(rownames(x),colnames(x))
    ## Fill the S matrix
