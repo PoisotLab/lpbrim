@@ -15,3 +15,15 @@ mostFrequent = function(vec, w=NA)
    for(i in 1:length(vec)) nvec[i] <- sum(vec==vec[i])
    return(which.is.max(nvec))
 }
+
+netToAdjacency = function(net){
+    x <- as.factor(net[,1])
+    y <- as.factor(net[,2])
+    z <- net[,3]
+    adj <- matrix(0,
+                  nrow=nlevels(x),
+                  ncol=nlevels(y),
+                  dimnames=list(levels(x), levels(y)))
+    adj[cbind(x, y)] <- z
+    adj
+}
