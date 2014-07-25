@@ -137,17 +137,11 @@ bBRIM = function(x)
       ## Optimization
       if(FromR)
       {
-         for(i in 1:NROW(x))
-         {
-            Rm[i,] <- rep(0,NCOL(Smat))
-            Rm[i,which.max(rBT[i,])] <- 1
-         }
+         Rm[,] <- 0
+         Rm[cbind(1:NROW(x),apply(rBT,1,which.max))] <- 1
       } else {
-         for(i in 1:NCOL(x))
-         {
-            Tm[i,] <- rep(0,NCOL(Smat))
-            Tm[i,which.max(tBT[i,])] <- 1
-         }	
+         Tm[,] <- 0
+         Tm[cbind(1:NCOL(x),apply(tBT,1,which.max))] <- 1
       }
       Smat[c(1:NROW(x)),] <- Rm
       Smat[(NROW(x)+c(1:NCOL(x))),] <- Tm

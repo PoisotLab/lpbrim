@@ -9,10 +9,9 @@ spread = function (v, m = 0, M = 1)
 
 mostFrequent = function(vec, w=NA)
 {
-   if(is.na(w)) w <- rep(1, length(vec))
-   nvec <- vec
-   names(nvec) <- names(vec)
-   for(i in 1:length(vec)) nvec[i] <- sum(vec==vec[i])
+   if(is.na(w)) w <- rep(1, length(vec)) # what is this supposed to do? w isn't used anywhere else in the function!
+   tvec <- table(vec)
+   nvec <- as.vector(tvec[as.factor(vec)])
    return(which.is.max(nvec))
 }
 
