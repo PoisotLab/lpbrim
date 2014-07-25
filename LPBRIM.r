@@ -75,8 +75,7 @@ Qbip = function(x,s)
    m <- sum(x)
    nc <- NCOL(s)
    A <- x
-   P <- x
-   for(i in 1:NROW(x)) for(j in 1:NCOL(x)) P[i,j] <- (sum(x[i,])*sum(x[,j]))/m
+   P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
    B <- A-P	
    Rm <- s[c(1:p),]
    ## If the network is not modular
@@ -120,8 +119,7 @@ bBRIM = function(x)
    m <- sum(x)
    nc <- NCOL(Smat)
    A <- x
-   P <- x
-   for(i in 1:NROW(x)) for(j in 1:NCOL(x)) P[i,j] <- (sum(x[i,])*sum(x[,j]))/m
+   P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
    B <- A-P
    ## Optimization loop
    cat('\nBRIM optimization starting\n')
