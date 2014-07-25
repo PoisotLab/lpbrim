@@ -75,8 +75,7 @@ Qbip = function(x,s)
    m <- sum(x)
    nc <- NCOL(s)
    A <- x
-   P <- x
-   for(i in 1:NROW(x)) for(j in 1:NCOL(x)) P[i,j] <- (sum(x[i,])*sum(x[,j]))/m
+   P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
    B <- A-P	
    Rm <- s[c(1:p),]
    ## If the network is not modular
@@ -105,7 +104,7 @@ bBRIM = function(x)
    x[x>0] <- 1
    Comms <- unique(CommDiv)
    NComm <- length(Comms)
-   Smat = matrix(0,NCOL=NComm,NROW=sum(dim(x)))
+   Smat = matrix(0,ncol=NComm,nrow=sum(dim(x)))
    colnames(Smat) <- Comms
    rownames(Smat) <- c(rownames(x),colnames(x))
    ## Fill the S matrix
@@ -120,8 +119,7 @@ bBRIM = function(x)
    m <- sum(x)
    nc <- NCOL(Smat)
    A <- x
-   P <- x
-   for(i in 1:NROW(x)) for(j in 1:NCOL(x)) P[i,j] <- (sum(x[i,])*sum(x[,j]))/m
+   P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
    B <- A-P
    ## Optimization loop
    cat('\nBRIM optimization starting\n')
@@ -139,17 +137,11 @@ bBRIM = function(x)
       ## Optimization
       if(FromR)
       {
-         for(i in 1:NROW(x))
-         {
-            Rm[i,] <- rep(0,NCOL(Smat))
-            Rm[i,which.max(rBT[i,])] <- 1
-         }
+         Rm[,] <- 0
+         Rm[cbind(1:NROW(x),apply(rBT,1,which.max))] <- 1
       } else {
-         for(i in 1:NCOL(x))
-         {
-            Tm[i,] <- rep(0,NCOL(Smat))
-            Tm[i,which.max(tBT[i,])] <- 1
-         }	
+         Tm[,] <- 0
+         Tm[cbind(1:NCOL(x),apply(tBT,1,which.max))] <- 1
       }
       Smat[c(1:NROW(x)),] <- Rm
       Smat[(NROW(x)+c(1:NCOL(x))),] <- Tm

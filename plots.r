@@ -1,3 +1,5 @@
+require(RColorBrewer)
+
 plotModules = function(mod)
 {
 	opar <- par(no.readonly=TRUE)
