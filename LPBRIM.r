@@ -1,6 +1,7 @@
 library(nnet)
-library(snow)
-library(snowfall)
+library(Matrix)
+library(plyr)
+library(doMC)
 
 bLP <- function (x,as.adjacency=TRUE) {
    cat('Label propagation starting\n')
@@ -154,20 +155,20 @@ bBRIM = function(x)
    return(list(S=Smat,M=x,Q=cBM,c=NCOL(Smat)))
 }
 
-findModules = function(M,iter=50,cpu=1)
+findModules = function(M,iter=50,sparse=TRUE, ...)
 {
-   usePar <- ifelse(cpu>1,TRUE,FALSE)
-   sfInit(parallel=usePar,cpus=cpu,type='SOCK')
-   if(usePar)
-   {
-      sfLibrary(nnet)
-      sfExportAll()
-   }
    if(is.null(rownames(M))) rownames(M) <- paste('r',c(1:NROW(M)),sep='')
    if(is.null(colnames(M))) colnames(M) <- paste('c',c(1:NCOL(M)),sep='')
-   ModulOutput <- sfLapply(c(1:iter),function(x) bBRIM(M))
-   sfStop()	
+   if(sparse) M <- Matrix(M, sparse=TRUE)
+   ModulOutput <- alply(c(1:iter),1, function(x) bBRIM(M), ...)
    Qs <- unlist(lapply(ModulOutput,function(x)x$Q))
    maxQs <- which.is.max(Qs)
    return(ModulOutput[[maxQs]])
 }
+
+## Example with parallel
+## M <- matrix(rbinom(10000, 1, 0.01), ncol=100)
+## M <- M[rowSums(M)>0, colSums(M)>0]
+## registerDoMC(3)
+## mod <- findModules(M, iter=10, sparse=TRUE, .parallel=TRUE)
+## END
