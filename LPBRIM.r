@@ -4,7 +4,6 @@ library(plyr)
 library(doMC)
 
 bLP <- function (x,as.adjacency=TRUE) {
-   cat('Label propagation starting\n')
    if(as.adjacency) x[x>0] <- 1
    OrderVec <- c(rownames(x),colnames(x))
    x <- x[sample(c(1:NROW(x))),sample(c(1:NCOL(x)))]
@@ -58,12 +57,9 @@ bLP <- function (x,as.adjacency=TRUE) {
       rownames(Smat) <- c(rownames(x),colnames(x))
       for(i in 1:length(Modules)) Smat[names(Modules)[i],as.character(Modules[i])]<-1
       newQ <- Qbip(x,Smat)
-      cat('\rCurrent Q\t',newQ,'\t')
    }
    Modules <- as.numeric(as.factor(Modules))
    names(Modules) <- c(names(lT),names(lB))
-   cat('\n')
-   cat('Label propagation ended after',Nsteps,'step(s)\n')
    return(Modules[OrderVec])
 }
 
@@ -123,12 +119,10 @@ bBRIM = function(x)
    P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
    B <- A-P
    ## Optimization loop
-   cat('\nBRIM optimization starting\n')
    while((Nsteps<3)|(preBM!=cBM))
    {
       Nsteps <- Nsteps + 1
       preBM <- Qbip(x,Smat)
-      cat('\rCurrent Q\t',preBM,'\t')
       ## Modularity matrix
       Rm <- as.matrix(Smat[c(1:p),])
       Tm <- as.matrix(Smat[c(p+(1:h)),])
@@ -150,8 +144,6 @@ bBRIM = function(x)
       cBM <- Qbip(x,Smat)
       FromR <- !FromR
    }
-   cat('\n')
-   cat('BRIM convergence reached in',Nsteps,'step(s)\n')
    return(list(S=Smat,M=x,Q=cBM,c=NCOL(Smat)))
 }
 
