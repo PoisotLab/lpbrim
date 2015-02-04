@@ -9,6 +9,6 @@ findModules = function(M,iter=50,sparse=TRUE, ...)
    if(sparse) M <- Matrix(M, sparse=TRUE)
    ModulOutput <- alply(c(1:iter),1, function(x) bBRIM(M), ...)
    Qs <- unlist(lapply(ModulOutput,function(x)x$Q))
-   maxQs <- which.is.max(Qs)
+   maxQs <- which.max(Qs)
    return(ModulOutput[[maxQs]])
 }
