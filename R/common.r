@@ -14,7 +14,7 @@ mostFrequent = function(vec, w=NA)
    if(is.na(w)) w <- rep(1, length(vec)) # TODO use weights at some point?
    tvec <- table(vec)
    nvec <- as.vector(tvec[as.factor(vec)])
-   return(which.is.max(nvec))
+   return(which.max(nvec))
 }
 
 #' @export
