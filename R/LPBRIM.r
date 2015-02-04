@@ -1,8 +1,4 @@
-library(nnet)
-library(Matrix)
-library(plyr)
-library(doMC)
-
+#' @export
 bLP <- function (x,as.adjacency=TRUE) {
    if(as.adjacency) x[x>0] <- 1
    OrderVec <- c(rownames(x),colnames(x))
@@ -32,7 +28,7 @@ bLP <- function (x,as.adjacency=TRUE) {
             lB[lsp] <- NeiLab[mostFrequent(NeiLab, NA)]
          } else {
             lB[lsp] <- NeiLab[mostFrequent(NeiLab,x[Nei,lsp])]
-         }   			
+         }
       }
       names(lB) <- colnames(x)
       ## Step 2 : update lT
@@ -63,6 +59,7 @@ bLP <- function (x,as.adjacency=TRUE) {
    return(Modules[OrderVec])
 }
 
+#' @export
 Qbip = function(x,s)
 {
    Q <- 0
@@ -73,7 +70,7 @@ Qbip = function(x,s)
    nc <- NCOL(s)
    A <- x
    P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
-   B <- A-P	
+   B <- A-P
    Rm <- s[c(1:p),]
    ## If the network is not modular
    if(is.null(dim(Rm))) return(0)
@@ -90,7 +87,7 @@ Qbip = function(x,s)
       }
       Isum[i] <- sum(Ksum)
    }
-   Q = (1/m)*sum(Isum)	 
+   Q = (1/m)*sum(Isum)
    return(Q)
 }
 
@@ -106,7 +103,7 @@ bBRIM = function(x)
    rownames(Smat) <- c(rownames(x),colnames(x))
    ## Fill the S matrix
    for(i in 1:length(CommDiv)) Smat[names(CommDiv)[i],as.character(CommDiv[i])]<-1
-   ## Initial modularity 
+   ## Initial modularity
    FromR <- TRUE
    cBM <- -10
    preBM <- 10
@@ -145,17 +142,6 @@ bBRIM = function(x)
       FromR <- !FromR
    }
    return(list(S=Smat,M=x,Q=cBM,c=NCOL(Smat)))
-}
-
-findModules = function(M,iter=50,sparse=TRUE, ...)
-{
-   if(is.null(rownames(M))) rownames(M) <- paste('r',c(1:NROW(M)),sep='')
-   if(is.null(colnames(M))) colnames(M) <- paste('c',c(1:NCOL(M)),sep='')
-   if(sparse) M <- Matrix(M, sparse=TRUE)
-   ModulOutput <- alply(c(1:iter),1, function(x) bBRIM(M), ...)
-   Qs <- unlist(lapply(ModulOutput,function(x)x$Q))
-   maxQs <- which.is.max(Qs)
-   return(ModulOutput[[maxQs]])
 }
 
 ## Example with parallel

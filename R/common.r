@@ -1,4 +1,5 @@
-spread = function (v, m = 0, M = 1) 
+#' @export
+spread = function (v, m = 0, M = 1)
 {
    v <- v - min(v)
    v <- v/max(v)
@@ -7,14 +8,16 @@ spread = function (v, m = 0, M = 1)
    return(v)
 }
 
+#' @export
 mostFrequent = function(vec, w=NA)
 {
-   if(is.na(w)) w <- rep(1, length(vec)) # what is this supposed to do? w isn't used anywhere else in the function!
+   if(is.na(w)) w <- rep(1, length(vec)) # TODO use weights at some point?
    tvec <- table(vec)
    nvec <- as.vector(tvec[as.factor(vec)])
    return(which.is.max(nvec))
 }
 
+#' @export
 netToAdjacency = function(net){
     x <- as.factor(net[,1])
     y <- as.factor(net[,2])
@@ -24,5 +27,5 @@ netToAdjacency = function(net){
                   ncol=nlevels(y),
                   dimnames=list(levels(x), levels(y)))
     adj[cbind(x, y)] <- z
-    adj
+    return(adj)
 }

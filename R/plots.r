@@ -1,5 +1,4 @@
-require(RColorBrewer)
-
+#' @export
 plotModules = function(mod)
 {
 	opar <- par(no.readonly=TRUE)
@@ -39,7 +38,7 @@ plotModules = function(mod)
 	   		Tcurr <- (min(Tcurr)-1)+WCrank
 	   		SeqT[Tm==cmod] <- Tcurr
    		}
-   		
+
    		## … degree-ranking of the HTL species
  		Bcurr <- SeqB[Bm==cmod]
    		if(length(Bcurr)>1)
@@ -50,32 +49,32 @@ plotModules = function(mod)
 	   		SeqB[Bm==cmod] <- Bcurr
    		}
  	}
- 
+
  	SeqT <- spread(SeqT)
  	SeqB <- spread(SeqB)
- 
+
  	for(ts in 1:nrow(x)) for(bs in 1:ncol(x)) if(x[ts,bs]>0)
  	{
  		ccol <- ifelse(Tm[ts]==Bm[bs],CommColor[Tm[ts]],'grey')
  		clwd <- ifelse(Tm[ts]==Bm[bs],2,1)
  		segments(0,SeqB[bs],1,SeqT[ts],lwd=clwd,col=ccol)
  	}
- 
+
  	## Plot Top Species
  	points(rep(1,nrow(x)),SeqT,col=CommColor[Tm],pch=19,cex=1.4)
  	text(rep(1.1,nrow(x)),SeqT,rownames(x),cex=0.8,adj=c(0,0.5))
  	## Plot Bottom Species
  	points(rep(0,ncol(x)),SeqB,col=CommColor[Bm],pch=19,cex=1.4)
 	text(rep(-0.1,ncol(x)),SeqB,colnames(x),cex=0.8,adj=c(1,0.5))
- 	## 
+ 	##
  	par(opar)
 }
 
+#' @export
+plotMatrixModules = function (mod,mode='blocks') {
 
-plotMatrixModules = function (mod,mode='blocks') {	
-	
 	if(!(mode%in%c('blocks','frames','both'))) warning('Plot mode should be one of blocks, frames, or both')
-	
+
 	x <- mod$M
  	S <- mod$S
  	Modules <- numeric(nrow(S))
@@ -88,15 +87,15 @@ plotMatrixModules = function (mod,mode='blocks') {
  	names(ModNum) <- names(Modules)
  	Tm <- ModNum[rownames(x)]
  	Bm <- ModNum[colnames(x)]
-	
+
 	opar <- par(no.readonly=TRUE)
  	par(xaxt='n',yaxt='n',mar=c(0,0,0,0),mai=c(0.2,0.2,0.2,0.2))
- 
+
  	CommColor <- colorRampPalette(brewer.pal(11,'Paired'))(ncol(S))
- 
+
  	SeqT <- rank(Tm,ties.method='random')
  	SeqB <- rank(Bm,ties.method='random')
- 
+
  	## Within each module …
  	for(cmod in unique(ModNum))
  	{
@@ -109,7 +108,7 @@ plotMatrixModules = function (mod,mode='blocks') {
 	   		Tcurr <- (min(Tcurr)-1)+WCrank
 	   		SeqT[Tm==cmod] <- Tcurr
    		}
-   		
+
    		## … degree-ranking of the HTL species
  		Bcurr <- SeqB[Bm==cmod]
    		if(length(Bcurr)>1)
@@ -120,10 +119,10 @@ plotMatrixModules = function (mod,mode='blocks') {
 	   		SeqB[Bm==cmod] <- Bcurr
    		}
  	}
- 
+
  	Tm <- Tm[names(SeqT)]
  	Bm <- Bm[names(SeqB)]
- 
+
 plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab='',bty='n')
 	rect(0.2,0.2,ncol(x)+0.8,nrow(x)+0.8)
    	## FRAMES
@@ -157,6 +156,6 @@ plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab
 	  	}
 	  	if(x[i,j]>0) symbols(Bcoord,Tcoord,squares=0.7,add=TRUE,inches=FALSE,bg=ccol,fg=NA)
 	  }
-	} 
+	}
 	par(opar)
 }

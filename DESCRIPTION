@@ -1,0 +1,16 @@
+Package: lpbrim
+Title: LP-BRIM Modularity
+Version: 0.1
+Authors@R: person("Timothée", "Poisot", email = "tim@poisotlab.io",
+                  role = c("aut", "cre"))
+Description: Measures the modularity of bipartite networks using LP-BRIM, and
+   provides some abilities to visualize the output.
+Depends: R (>= 3.1.0)
+License: MIT
+LazyData: true
+Imports:
+   nnet,
+   Matrix,
+   plyr,
+   doMC,
+   RColorBrewer
