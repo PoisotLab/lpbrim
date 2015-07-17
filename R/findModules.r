@@ -11,6 +11,10 @@
 #' @param iter Number of optimization runs to do
 #' @param sparse Whether the matrix should be made sparse
 #' @param ... Other arguments
+#' @example
+#' M <- matrix(rbinom(100, 1, 0.01), ncol=10)
+#' M <- M[rowSums(M)>0, colSums(M)>0]
+#' mod <- findModules(M, iter=2)
 findModules = function(M,iter=50,sparse=TRUE, ...)
 {
    if(is.null(rownames(M))) rownames(M) <- paste('r',c(1:NROW(M)),sep='')
