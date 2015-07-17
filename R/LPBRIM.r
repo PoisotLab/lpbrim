@@ -1,4 +1,8 @@
+#' @title Bipartite label propagation (LP)
+#' @description Performs LP
 #' @export
+#' @param x Bipartite network
+#' @param as.adjacency TRUE if x is a matrix, FALSE if it its an object with three columns
 bLP <- function (x,as.adjacency=TRUE) {
    if(as.adjacency) x[x>0] <- 1
    OrderVec <- c(rownames(x),colnames(x))
@@ -27,7 +31,7 @@ bLP <- function (x,as.adjacency=TRUE) {
          {
             lB[lsp] <- NeiLab[mostFrequent(NeiLab, NA)]
          } else {
-            lB[lsp] <- NeiLab[mostFrequent(NeiLab,x[Nei,lsp])]
+            lB[lsp] <- NeiLab[mostFrequent(NeiLab, x[Nei,lsp])]
          }
       }
       names(lB) <- colnames(x)
@@ -40,7 +44,7 @@ bLP <- function (x,as.adjacency=TRUE) {
          {
             lT[tsp] <- NeiLab[mostFrequent(NeiLab, NA)]
          } else {
-            lT[tsp] <- NeiLab[mostFrequentW(NeiLab,x[tsp,Nei])]
+            lT[tsp] <- NeiLab[mostFrequent(NeiLab, x[tsp,Nei])]
          }
       }
       names(lT) <- rownames(x)
@@ -59,7 +63,11 @@ bLP <- function (x,as.adjacency=TRUE) {
    return(Modules[OrderVec])
 }
 
+#' @title Barber's modularity
+#' @description Returns Q
 #' @export
+#' @param x Bipartite adjacency matrix
+#' @param s Community partition
 Qbip <- function(x,s)
 {
    Q <- 0
@@ -91,7 +99,10 @@ Qbip <- function(x,s)
    return(Q)
 }
 
+#' @title BRIM
+#' @description Performs the BRIM algorithm
 #' @export
+#' @param x Bipartite adjacency matrix
 bBRIM = function(x)
 {
    Nsteps <- 0
