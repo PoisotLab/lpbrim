@@ -20,8 +20,8 @@ This function takes a matrix, and performs a search for the best
 partition in modules.
 }
 \examples{
-M <- matrix(rbinom(100, 1, 0.01), ncol=10)
+M <- matrix(rbinom(100, 1, 0.3), ncol=10)
 M <- M[rowSums(M)>0, colSums(M)>0]
-mod <- findModules(M, iter=2)
+mod <- findModules(M, iter=2, sparse=FALSE)
 }
 

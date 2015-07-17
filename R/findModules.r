@@ -2,7 +2,7 @@
 #' @description This function takes a matrix, and performs a search for the best
 #' partition in modules.
 # Example with parallel
-# M <- matrix(rbinom(10000, 1, 0.3), ncol=100)
+# M <- matrix(rbinom(10000, 1, 0.01), ncol=100)
 # M <- M[rowSums(M)>0, colSums(M)>0]
 # registerDoMC(3)
 # mod <- findModules(M, iter=10, sparse=TRUE, .parallel=TRUE)
@@ -12,9 +12,9 @@
 #' @param sparse Whether the matrix should be made sparse
 #' @param ... Other arguments
 #' @examples
-#' M <- matrix(rbinom(100, 1, 0.01), ncol=10)
+#' M <- matrix(rbinom(100, 1, 0.3), ncol=10)
 #' M <- M[rowSums(M)>0, colSums(M)>0]
-#' mod <- findModules(M, iter=2)
+#' mod <- findModules(M, iter=2, sparse=FALSE)
 findModules = function(M,iter=50,sparse=TRUE, ...)
 {
    if(is.null(rownames(M))) rownames(M) <- paste('r',c(1:NROW(M)),sep='')
