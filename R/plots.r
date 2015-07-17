@@ -1,4 +1,7 @@
+#' @title Plot the modules as a network
+#' @description Plot the modules as a network
 #' @export
+#' @param mod The output of findModules
 plotModules <- function(mod)
 {
 	opar <- par(no.readonly=TRUE)
@@ -70,7 +73,11 @@ plotModules <- function(mod)
  	par(opar)
 }
 
+#' @title Plot the modules as a matrix
+#' @description Plot the modules as a network
 #' @export
+#' @param mod The output of findModules
+#' @param mode The type of plot, either blocks (different modules are colored), frames (modules are outlined), or both
 plotMatrixModules <- function (mod,mode='blocks') {
 
 	if(!(mode%in%c('blocks','frames','both'))) warning('Plot mode should be one of blocks, frames, or both')
