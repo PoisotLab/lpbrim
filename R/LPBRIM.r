@@ -9,7 +9,7 @@ bLP <- function (x,as.adjacency=TRUE) {
    # LTL labels
    lB <- rep(0,NCOL(x))
    names(lB) <- colnames(x)
-   ## Seeding the initial modularity
+   # Seeding the initial modularity
    oldQ <- 0
    newQ <- 1e-10
    Nsteps <- 0
@@ -18,7 +18,7 @@ bLP <- function (x,as.adjacency=TRUE) {
    {
       Nsteps <- Nsteps + 1
       oldQ <- newQ
-      ## Step 1 : update lB
+      # Step 1 : update lB
       for(lsp in 1:NCOL(x))
       {
          Nei <- rownames(x)[x[,lsp]>0]
@@ -31,7 +31,7 @@ bLP <- function (x,as.adjacency=TRUE) {
          }
       }
       names(lB) <- colnames(x)
-      ## Step 2 : update lT
+      # Step 2 : update lT
       for(tsp in 1:NROW(x))
       {
          Nei <- colnames(x)[x[tsp,]>0]
@@ -44,7 +44,7 @@ bLP <- function (x,as.adjacency=TRUE) {
          }
       }
       names(lT) <- rownames(x)
-      ## Shaping the vectors
+      # Shaping the vectors
       Modules <- c(lT,lB)
       Comms <- unique(Modules)
       NComm <- length(Comms)
@@ -60,7 +60,7 @@ bLP <- function (x,as.adjacency=TRUE) {
 }
 
 #' @export
-Qbip = function(x,s)
+Qbip <- function(x,s)
 {
    Q <- 0
    x[x>0] <- 1
@@ -72,10 +72,10 @@ Qbip = function(x,s)
    P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
    B <- A-P
    Rm <- s[c(1:p),]
-   ## If the network is not modular
+   # If the network is not modular
    if(is.null(dim(Rm))) return(0)
    Tm <- s[c(p+(1:h)),]
-   ## Induce Qr from T
+   # Induce Qr from T
    BT <- B%*%Tm
    Isum <- NULL
    for(i in 1:p)
@@ -91,6 +91,7 @@ Qbip = function(x,s)
    return(Q)
 }
 
+#' @export
 bBRIM = function(x)
 {
    Nsteps <- 0
@@ -101,13 +102,13 @@ bBRIM = function(x)
    Smat = matrix(0,ncol=NComm,nrow=sum(dim(x)))
    colnames(Smat) <- Comms
    rownames(Smat) <- c(rownames(x),colnames(x))
-   ## Fill the S matrix
+   # Fill the S matrix
    for(i in 1:length(CommDiv)) Smat[names(CommDiv)[i],as.character(CommDiv[i])]<-1
-   ## Initial modularity
+   # Initial modularity
    FromR <- TRUE
    cBM <- -10
    preBM <- 10
-   ## Some important values
+   # Some important values
    p <- NROW(x)
    h <- NCOL(x)
    m <- sum(x)
@@ -115,18 +116,18 @@ bBRIM = function(x)
    A <- x
    P <- matrix(kronecker(colSums(x),rowSums(x)),nrow=NROW(x),ncol=NCOL(x))/m
    B <- A-P
-   ## Optimization loop
+   # Optimization loop
    while((Nsteps<3)|(preBM!=cBM))
    {
       Nsteps <- Nsteps + 1
       preBM <- Qbip(x,Smat)
-      ## Modularity matrix
+      # Modularity matrix
       Rm <- as.matrix(Smat[c(1:p),])
       Tm <- as.matrix(Smat[c(p+(1:h)),])
-      ## Product matrix for T & R
+      # Product matrix for T & R
       rBT <- B%*%Tm
       tBT <- t(B)%*%Rm
-      ## Optimization
+      # Optimization
       if(FromR)
       {
          Rm[,] <- 0
@@ -137,16 +138,9 @@ bBRIM = function(x)
       }
       Smat[c(1:NROW(x)),] <- Rm
       Smat[(NROW(x)+c(1:NCOL(x))),] <- Tm
-      ## New bipartition
+      # New bipartition
       cBM <- Qbip(x,Smat)
       FromR <- !FromR
    }
    return(list(S=Smat,M=x,Q=cBM,c=NCOL(Smat)))
 }
-
-## Example with parallel
-## M <- matrix(rbinom(10000, 1, 0.01), ncol=100)
-## M <- M[rowSums(M)>0, colSums(M)>0]
-## registerDoMC(3)
-## mod <- findModules(M, iter=10, sparse=TRUE, .parallel=TRUE)
-## END

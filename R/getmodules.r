@@ -2,6 +2,7 @@
 #' @description This function takes a mod object, and returns a list of
 #' matrices, each corresponding to a single module
 #' @export
+#' @param mod The output of findModules
 getmodules = function(mod)
 {
 	Lev1 <- mod$S[c(1:NROW(mod$M)),]

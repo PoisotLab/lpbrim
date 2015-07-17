@@ -1,5 +1,5 @@
 #' @export
-plotModules = function(mod)
+plotModules <- function(mod)
 {
 	opar <- par(no.readonly=TRUE)
 	##
@@ -21,29 +21,29 @@ plotModules = function(mod)
  	Tm <- ModNum[rownames(x)]
  	Bm <- ModNum[colnames(x)]
  	## Initate Plot
- 	CommColor <- colorRampPalette(brewer.pal(11,'Spectral'))(ncol(S))
+ 	CommColor <- colorRampPalette(RColorBrewer::brewer.pal(11,'Spectral'))(ncol(S))
  	plot(0,xlim=c(-1,2),ylim=c(0,1),pch=NA,bty='n')
  	##
  	SeqT <- rank(Tm,ties.method='random')
  	SeqB <- rank(Bm,ties.method='random')
- 	## Within each module …
+ 	## Within each module
  	for(cmod in unique(ModNum))
  	{
- 		## … degree-ranking of the HTL species
+ 		# degree-ranking of the HTL species
  		Tcurr <- SeqT[Tm==cmod]
    		if(length(Tcurr)>1)
    		{
-   			Gen <- apply(x[names(Tcurr),],1,function(x) sum(x>0))
+   			Gen <- plyr::aaply(x[names(Tcurr),],1,function(x) sum(x>0))
 	   		WCrank <- rank(Gen,ties.method='random')
 	   		Tcurr <- (min(Tcurr)-1)+WCrank
 	   		SeqT[Tm==cmod] <- Tcurr
    		}
 
-   		## … degree-ranking of the HTL species
+   		# degree-ranking of the HTL species
  		Bcurr <- SeqB[Bm==cmod]
    		if(length(Bcurr)>1)
    		{
-	 		Gen <- apply(x[,names(Bcurr)],2,function(x) sum(x>0))
+	 		Gen <- plyr::aaply(x[,names(Bcurr)],2,function(x) sum(x>0))
 	   		WCrank <- rank(Gen,ties.method='random')
 	   		Bcurr <- (min(Bcurr)-1)+WCrank
 	   		SeqB[Bm==cmod] <- Bcurr
@@ -71,7 +71,7 @@ plotModules = function(mod)
 }
 
 #' @export
-plotMatrixModules = function (mod,mode='blocks') {
+plotMatrixModules <- function (mod,mode='blocks') {
 
 	if(!(mode%in%c('blocks','frames','both'))) warning('Plot mode should be one of blocks, frames, or both')
 
@@ -91,29 +91,29 @@ plotMatrixModules = function (mod,mode='blocks') {
 	opar <- par(no.readonly=TRUE)
  	par(xaxt='n',yaxt='n',mar=c(0,0,0,0),mai=c(0.2,0.2,0.2,0.2))
 
- 	CommColor <- colorRampPalette(brewer.pal(11,'Paired'))(ncol(S))
+ 	CommColor <- colorRampPalette(RColorBrewer::brewer.pal(11,'Paired'))(ncol(S))
 
  	SeqT <- rank(Tm,ties.method='random')
  	SeqB <- rank(Bm,ties.method='random')
 
- 	## Within each module …
+ 	## Within each module
  	for(cmod in unique(ModNum))
  	{
- 		## … degree-ranking of the HTL species
+ 		## degree-ranking of the HTL species
  		Tcurr <- SeqT[Tm==cmod]
    		if(length(Tcurr)>1)
    		{
-   			Gen <- apply(x[names(Tcurr),],1,function(x) sum(x>0))
+   			Gen <- plyr::aaply(x[names(Tcurr),],1,function(x) sum(x>0))
 	   		WCrank <- rank(Gen,ties.method='random')
 	   		Tcurr <- (min(Tcurr)-1)+WCrank
 	   		SeqT[Tm==cmod] <- Tcurr
    		}
 
-   		## … degree-ranking of the HTL species
+   		## degree-ranking of the HTL species
  		Bcurr <- SeqB[Bm==cmod]
    		if(length(Bcurr)>1)
    		{
-	 		Gen <- apply(x[,names(Bcurr)],2,function(x) sum(x>0))
+	 		Gen <- plyr::aaply(x[,names(Bcurr)],2,function(x) sum(x>0))
 	   		WCrank <- rank(Gen,ties.method='random')
 	   		Bcurr <- (min(Bcurr)-1)+WCrank
 	   		SeqB[Bm==cmod] <- Bcurr

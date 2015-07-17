@@ -1,16 +1,17 @@
 Package: lpbrim
-Title: LP-BRIM Modularity
-Version: 0.1
-Authors@R: person("Timothée", "Poisot", email = "tim@poisotlab.io",
-                  role = c("aut", "cre"))
-Description: Measures the modularity of bipartite networks using LP-BRIM, and
-   provides some abilities to visualize the output.
-Depends: R (>= 3.0.0)
-License: MIT
-LazyData: true
+Version: 1.0.0
+Date: 2015-07-17
+Title: LP-BRIM Bipartite Modularity
+Author: Timothee Poisot <tim@poisotlab.io>, Daniel B Stouffer <daniel.stouffer@canterbury.ac.nz>
+Maintainer: Timothee Poisot <tim@poisotlab.io>
+Depends:
+  R (>= 2.12.0)
 Imports:
-   nnet,
-   Matrix,
-   plyr,
-   doMC,
-   RColorBrewer
+  Matrix,
+  plyr,
+  RColorBrewer
+Suggests:
+  doMC
+Description: Optimization of bipartite modularity using LP-BRIM.
+License: BSD_2_clause + file LICENSE
+URL: http://poisotlab.io/software
