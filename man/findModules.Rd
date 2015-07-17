@@ -19,4 +19,9 @@ findModules(M, iter = 50, sparse = TRUE, ...)
 This function takes a matrix, and performs a search for the best
 partition in modules.
 }
+\examples{
+M <- matrix(rbinom(100, 1, 0.01), ncol=10)
+M <- M[rowSums(M)>0, colSums(M)>0]
+mod <- findModules(M, iter=2)
+}
 
