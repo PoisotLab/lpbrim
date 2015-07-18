@@ -4,13 +4,13 @@
 #' @param mod The output of findModules
 plotModules <- function(mod)
 {
-	opar <- par(no.readonly=TRUE)
+	opar <- graphics::par(no.readonly=TRUE)
 	##
 	#TX <- spread(x[x>0],0.5,3)
  	x <- mod$M
 	x[x>0] <- 1
 	##
- 	par(mar=c(0,0,0,0),xaxt='n',yaxt='n')
+ 	graphics::par(mar=c(0,0,0,0),xaxt='n',yaxt='n')
 	##
  	S <- mod$S
  	Modules <- numeric(nrow(S))
@@ -24,8 +24,8 @@ plotModules <- function(mod)
  	Tm <- ModNum[rownames(x)]
  	Bm <- ModNum[colnames(x)]
  	## Initate Plot
- 	CommColor <- colorRampPalette(RColorBrewer::brewer.pal(11,'Spectral'))(ncol(S))
- 	plot(0,xlim=c(-1,2),ylim=c(0,1),pch=NA,bty='n')
+ 	CommColor <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(11,'Spectral'))(ncol(S))
+ 	graphics::plot(0,xlim=c(-1,2),ylim=c(0,1),pch=NA,bty='n')
  	##
  	SeqT <- rank(Tm,ties.method='random')
  	SeqB <- rank(Bm,ties.method='random')
@@ -60,17 +60,17 @@ plotModules <- function(mod)
  	{
  		ccol <- ifelse(Tm[ts]==Bm[bs],CommColor[Tm[ts]],'grey')
  		clwd <- ifelse(Tm[ts]==Bm[bs],2,1)
- 		segments(0,SeqB[bs],1,SeqT[ts],lwd=clwd,col=ccol)
+ 		graphics::segments(0,SeqB[bs],1,SeqT[ts],lwd=clwd,col=ccol)
  	}
 
  	## Plot Top Species
- 	points(rep(1,nrow(x)),SeqT,col=CommColor[Tm],pch=19,cex=1.4)
- 	text(rep(1.1,nrow(x)),SeqT,rownames(x),cex=0.8,adj=c(0,0.5))
+ 	graphics::points(rep(1,nrow(x)),SeqT,col=CommColor[Tm],pch=19,cex=1.4)
+ 	graphics::text(rep(1.1,nrow(x)),SeqT,rownames(x),cex=0.8,adj=c(0,0.5))
  	## Plot Bottom Species
- 	points(rep(0,ncol(x)),SeqB,col=CommColor[Bm],pch=19,cex=1.4)
-	text(rep(-0.1,ncol(x)),SeqB,colnames(x),cex=0.8,adj=c(1,0.5))
+ 	graphics::points(rep(0,ncol(x)),SeqB,col=CommColor[Bm],pch=19,cex=1.4)
+	graphics::text(rep(-0.1,ncol(x)),SeqB,colnames(x),cex=0.8,adj=c(1,0.5))
  	##
- 	par(opar)
+ 	graphics::par(opar)
 }
 
 #' @title Plot the modules as a matrix
@@ -95,10 +95,10 @@ plotMatrixModules <- function (mod,mode='blocks') {
  	Tm <- ModNum[rownames(x)]
  	Bm <- ModNum[colnames(x)]
 
-	opar <- par(no.readonly=TRUE)
- 	par(xaxt='n',yaxt='n',mar=c(0,0,0,0),mai=c(0.2,0.2,0.2,0.2))
+	opar <- graphics::par(no.readonly=TRUE)
+ 	graphics::par(xaxt='n',yaxt='n',mar=c(0,0,0,0),mai=c(0.2,0.2,0.2,0.2))
 
- 	CommColor <- colorRampPalette(RColorBrewer::brewer.pal(11,'Paired'))(ncol(S))
+ 	CommColor <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(11,'Paired'))(ncol(S))
 
  	SeqT <- rank(Tm,ties.method='random')
  	SeqB <- rank(Bm,ties.method='random')
@@ -130,8 +130,8 @@ plotMatrixModules <- function (mod,mode='blocks') {
  	Tm <- Tm[names(SeqT)]
  	Bm <- Bm[names(SeqB)]
 
-plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab='',bty='n')
-	rect(0.2,0.2,ncol(x)+0.8,nrow(x)+0.8)
+graphics::plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab='',bty='n')
+	graphics::rect(0.2,0.2,ncol(x)+0.8,nrow(x)+0.8)
    	## FRAMES
    	if(mode%in%c('frames','both'))
    	{
@@ -144,7 +144,7 @@ plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab
 	  		Tpos <- Tpos + c(-0.45,0.45)
 	  		Bpos <- Bpos + c(-0.45,0.45)
 	  		## Module
-	  		rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],lwd=2,border=ifelse(mode=='both',CommColor[Ccom],'black'))
+	  		graphics::rect(Bpos[1],Tpos[1],Bpos[2],Tpos[2],lwd=2,border=ifelse(mode=='both',CommColor[Ccom],'black'))
    		}
    	}
    	## Squares
@@ -161,8 +161,8 @@ plot(0,pch=NA,xlim=c(0.9,ncol(x)+0.1),ylim=c(0.9,nrow(x)+0.1),asp=1,xlab='',ylab
 	  	} else {
 	  		ccol <- ifelse(Tm[i]==Bm[j],'black','grey')
 	  	}
-	  	if(x[i,j]>0) symbols(Bcoord,Tcoord,squares=0.7,add=TRUE,inches=FALSE,bg=ccol,fg=NA)
+	  	if(x[i,j]>0) graphics::symbols(Bcoord,Tcoord,squares=0.7,add=TRUE,inches=FALSE,bg=ccol,fg=NA)
 	  }
 	}
-	par(opar)
+	graphics::par(opar)
 }

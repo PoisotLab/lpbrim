@@ -12,6 +12,7 @@ Imports:
   RColorBrewer
 Suggests:
   doMC
-Description: Optimization of bipartite modularity using LP-BRIM.
+Description: Optimization of bipartite modularity using LP-BRIM (Label propagation
+  followed by Bipartite Recursively Induced Modularity).
 License: BSD_2_clause + file LICENSE
 URL: http://poisotlab.io/software
